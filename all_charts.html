@@ -1,0 +1,313 @@
+ <!DOCTYPE html>
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+   
+    <style>
+    .chart {
+    width: 100%;
+    }
+    
+
+td {
+text-align: right;
+}
+
+    
+    </style>
+  </head>
+  <body>
+  <form id="form1" onchange="drawChart()" >
+     
+     <select id="thedropdown">
+     <option value="medincome">Median Income</option>
+     <option value="medhomeval">Median Home Value</option>
+     </select>
+    
+  </form>
+  <div class="chart">
+    <div id="line_chart"></div>
+    </div>
+    
+    <form id="form" onchange="drawChart2()" >
+     
+     <select id="thedropdown2">
+     <option value="ownservice">Service Employee</option>
+     <option value="ownartist">Artist</option>
+     <option value="owntech">Tech Worker</option>
+     </select>
+    
+  </form>
+  <div class="chart">
+    <div id="col_chart"></div>
+    </div>
+    
+    <p>Select an option</p>
+  <form id="form3" >
+     
+     <select id="thedropdown3">
+     <option value="0">All</option>
+     <option value="1">Poverty Below 10%</option>
+     <option value="2">Poverty 10% or More</option>
+     </select>
+     </form>
+ 
+  <form id="form4" >    
+    <label>Lookup Your Zipcode: <input type="text" id="yourzip"></label>
+    <button type="submit" value="Submit">Submit</button>
+     
+    
+     </select>
+    
+  </form>
+ <table> 
+ <thead>
+ <tr><th>Zip</th> <th>Poverty %</th> <th>Median Income</th> <th>Median Home Value</th> <th>% Own Service</th> <th>% Rent Service</th> <th>% Own Artist</th> <th>% Rent Artist</th> <th>% Own Tech</th> <th>% RentTech</th> </tr>
+ </thead>
+<tbody id="answer"></tbody>
+
+</table>
+    
+    
+     <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(drawChart2);
+      
+  
+housinginfo = [ { "measure": "medincome", "z78701": 68152, "z78702": 34734, "z78703": 92606, "z78704": 50248, "z78705": 11917, "z78722": 44917, "z78741": 30183, "z78746": 125327, "z78751": 38624,}, 
+{ "measure": "medhomeval", "z78701": 338300, "z78702": 175400, "z78703": 621900, "z78704": 338200, "z78705": 292500, "z78722": 265100, "z78741": 120200, "z78746": 619900, "z78751": 292200, }, 
+{ "measure": "ownservice", "z78701": 0, "z78702": 0, "z78703": 0, "z78704": 0, "z78705": 1, "z78722": 0, "z78741": 28, "z78746": 0, "z78751": 0,}, 
+{ "measure": "rentservice", "z78701": 7, "z78702": 39, "z78703": 8, "z78704": 11, "z78705": 6, "z78722": 8, "z78741": 11, "z78746": 4, "z78751": 9,}, 
+{ "measure": "ownartist", "z78701": 1, "z78702": 2, "z78703": 0, "z78704": 2, "z78705": 10, "z78722": 1, "z78741": 39, "z78746": 0, "z78751": 2,}, 
+{ "measure": "rentartist", "z78701": 12, "z78702": 51, "z78703": 25, "z78704": 26, "z78705": 23, "z78722": 31, "z78741": 40, "z78746": 8, "z78751": 38,}, 
+{ "measure": "owntech", "z78701": 30, "z78702": 67, "z78703": 13, "z78704": 33, "z78705": 79, "z78722": 37, "z78741": 93, "z78746": 6, "z78751": 42,}, 
+{"measure": "renttech", "z78701": 90, "z78702": 99, "z78703": 92, "z78704": 99, "z78705": 94, "z78722": 97, "z78741": 100, "z78746": 94, "z78751": 97,} ];
+      
+function drawChart() {
+      
+      selection = document.getElementById("thedropdown").value;
+    
+      select = document.getElementById("thedropdown");
+      selectiontext = select.options[select.selectedIndex].text;
+      
+
+
+    for(i=0; i<housinginfo.length; i++) { 
+    if(selection == housinginfo[i].measure) {
+       z1 = housinginfo[i].z78701;
+       z2 = housinginfo[i].z78702;
+       z3 = housinginfo[i].z78703;
+       z4 = housinginfo[i].z78704;
+       z5 = housinginfo[i].z78705;
+       z6 = housinginfo[i].z78722;
+       z7 = housinginfo[i].z78741;
+       z8 = housinginfo[i].z78746;
+       z9 = housinginfo[i].z78751;
+    
+    }// end if
+       
+    } // end for       
+    
+        var data = google.visualization.arrayToDataTable([
+          ['Element', '$$$'],
+          ['78701', z1],
+          ['78702', z2],
+          ['78703', z3],
+          ['78704', z4],
+          ['78705', z5],
+          ['78722', z6],
+          ['78741', z7],
+          ['78746', z8],
+          ['78751', z9],
+                
+        ]);
+
+        var options = {
+          title: selectiontext,
+          legend: { position: 'bottom' }
+        };
+        
+ 
+        var chart = new google.visualization.LineChart(document.getElementById('line_chart'));
+
+
+        chart.draw(data, options);
+        
+      }
+      
+      function drawChart2() {
+      
+      selection = document.getElementById("thedropdown2").value;
+    
+      select = document.getElementById("thedropdown2");
+      selectiontext = select.options[select.selectedIndex].text;
+      
+
+
+    for(i=0; i<housinginfo.length; i++) { 
+    if(selection == housinginfo[i].measure) {
+       z1 = housinginfo[i].z78701;
+       z2 = housinginfo[i].z78702;
+       z3 = housinginfo[i].z78703;
+       z4 = housinginfo[i].z78704;
+       z5 = housinginfo[i].z78705;
+       z6 = housinginfo[i].z78722;
+       z7 = housinginfo[i].z78741;
+       z8 = housinginfo[i].z78746;
+       z9 = housinginfo[i].z78751;
+       
+       z1a = housinginfo[i+1].z78701;
+       z2a = housinginfo[i+1].z78702;
+       z3a = housinginfo[i+1].z78703;
+       z4a = housinginfo[i+1].z78704;
+       z5a = housinginfo[i+1].z78705;
+       z6a = housinginfo[i+1].z78722;
+       z7a = housinginfo[i+1].z78741;
+       z8a = housinginfo[i+1].z78746;
+       z9a = housinginfo[i+1].z78751;
+    
+    }// end if
+       
+    } // end for       
+    
+        var data = google.visualization.arrayToDataTable([
+          ['Element', '% own', '% rent'],
+          ['78701', z1, z1a],
+          ['78702', z2, z2a],
+          ['78703', z3, z3a],
+          ['78704', z4, z4a],
+          ['78705', z5, z5a],
+          ['78722', z6, z6a],
+          ['78741', z7, z7a],
+          ['78746', z8, z8a],
+          ['78751', z9, z9a],
+                
+        ]);
+
+        var options = {
+          title: selectiontext,
+          legend: { position: 'bottom' }
+        };
+        
+ 
+        var chart = new google.visualization.ColumnChart(document.getElementById('col_chart'));
+
+
+        chart.draw(data, options);
+        
+      }
+      
+      
+      
+      housinginfo2 = [ { "zip": 78701, "belowpoverty": 20, "medincome": 68152, "medhomeval": 338300, "ownservice": 0, "rentservice": 7, "ownartist": 1, "rentartist": 12, "owntech": 30, "renttech": 90 }, 
+{ "zip": 78702, "belowpoverty": 33, "medincome": 34734, "medhomeval": 175400, "ownservice": 0, "rentservice": 39, "ownartist": 2, "rentartist": 51, "owntech": 67, "renttech": 99 }, 
+{ "zip": 78703, "belowpoverty": 10, "medincome": 92606, "medhomeval": 621900, "ownservice": 0, "rentservice": 8, "ownartist": 0, "rentartist": 25, "owntech": 13, "renttech": 92 }, 
+{ "zip": 78704, "belowpoverty": 21, "medincome": 50248, "medhomeval": 338200, "ownservice": 0, "rentservice": 11, "ownartist": 2, "rentartist": 26, "owntech": 33, "renttech": 99 }, 
+{ "zip": 78705, "belowpoverty": 66, "medincome": 11917, "medhomeval": 292500, "ownservice": 1, "rentservice": 6, "ownartist": 10, "rentartist": 23, "owntech": 79, "renttech": 94 }, 
+{ "zip": 78717, "belowpoverty": 3, "medincome": 93305, "medhomeval": 243200, "ownservice": 0, "rentservice": 1, "ownartist": 0, "rentartist": 9, "owntech": 67, "renttech": 98 }, 
+{ "zip": 78721, "belowpoverty": 32, "medincome": 32131, "medhomeval": 121000, "ownservice": 12, "rentservice": 25, "ownartist": 22, "rentartist": 39, "owntech": 95, "renttech": 100 }, 
+{ "zip": 78722, "belowpoverty": 19, "medincome": 44917, "medhomeval": 265100, "ownservice": 0, "rentservice": 8, "ownartist": 1, "rentartist": 31, "owntech": 37, "renttech": 97 }, 
+{ "zip": 78723, "belowpoverty": 29, "medincome": 41869, "medhomeval": 176500, "ownservice": 1, "rentservice": 18, "ownartist": 4, "rentartist": 44, "owntech": 83, "renttech": 99 }, 
+{ "zip": 78724, "belowpoverty": 38, "medincome": 35711, "medhomeval": 105700, "ownservice": 28, "rentservice": 15, "ownartist": 42, "rentartist": 22, "owntech": 96, "renttech": 100 }, 
+{ "zip": 78726, "belowpoverty": 09, "medincome": 66096, "medhomeval": 349900, "ownservice": 0, "rentservice": 0, "ownartist": 0, "rentartist": 8, "owntech": 17, "renttech": 99 },
+{ "zip": 78727, "belowpoverty": 11, "medincome": 65687, "medhomeval": 198500, "ownservice": 0, "rentservice": 1, "ownartist": 1, "rentartist": 11, "owntech": 90, "renttech": 99 }, 
+{ "zip": 78728, "belowpoverty": 14, "medincome": 47405, "medhomeval": 168600, "ownservice": 0, "rentservice": 2, "ownartist": 1, "rentartist": 24, "owntech": 100, "renttech": 99 }, 
+{ "zip": 78729, "belowpoverty": 8, "medincome": 57358, "medhomeval": 192300, "ownservice": 0, "rentservice": 2, "ownartist": 1, "rentartist": 17, "owntech": 96, "renttech": 100 }, 
+{ "zip": 78730, "belowpoverty": 4, "medincome": 119573, "medhomeval": 570400, "ownservice": 0, "rentservice": 0, "ownartist": 1, "rentartist": 3, "owntech": 25, "renttech": 99 }, 
+{ "zip": 78731, "belowpoverty": 9, "medincome": 78265, "medhomeval": 436800, "ownservice": 0, "rentservice": 2, "ownartist": 2, "rentartist": 24, "owntech": 26, "renttech": 97 }, 
+{ "zip": 78732, "belowpoverty": 3, "medincome": 127726, "medhomeval": 388600, "ownservice": 0, "rentservice": 0, "ownartist": 0, "rentartist": 0, "owntech": 15, "renttech": 80 }, 
+{ "zip": 78735, "belowpoverty": 6, "medincome": 74571, "medhomeval": 379900, "ownservice": 2, "rentservice": 4, "ownartist": 2, "rentartist": 7, "owntech": 23, "renttech": 97 }, 
+{ "zip": 78739, "belowpoverty": 1, "medincome": 126525, "medhomeval": 350500, "ownservice": 0, "rentservice": 0, "ownartist": 0, "rentartist": 0, "owntech": 11, "renttech": 71 }, 
+{ "zip": 78741, "belowpoverty": 4, "medincome": 30183, "medhomeval": 120200, "ownservice": 28, "rentservice": 11, "ownartist": 39, "rentartist": 40, "owntech": 93, "renttech": 100 }, 
+{ "zip": 78742, "belowpoverty": 37, "medincome": 34076, "medhomeval": 54400, "ownservice": 50, "rentservice": 23, "ownartist": 50, "rentartist": 76, "owntech": 100, "renttech": 100 }, 
+{ "zip": 78744, "belowpoverty": 26, "medincome": 41056, "medhomeval": 108100, "ownservice": 13, "rentservice": 6, "ownartist": 33, "rentartist": 22, "owntech": 100, "renttech": 100 }, 
+{ "zip": 78745, "belowpoverty": 16, "medincome": 49243, "medhomeval": 166200, "ownservice": 1, "rentservice": 6, "ownartist": 3, "rentartist": 24, "owntech": 96, "renttech": 99 }, 
+{ "zip": 78746, "belowpoverty": 5, "medincome": 125327, "medhomeval": 619900, "ownservice": 0, "rentservice": 4, "ownartist": 0, "rentartist": 8, "owntech": 6, "renttech": 94 }, 
+{ "zip": 78748, "belowpoverty": 9, "medincome": 65889, "medhomeval": 185500, "ownservice": 0, "rentservice": 4, "ownartist": 0, "rentartist": 12, "owntech": 92, "renttech": 100 }, 
+{ "zip": 78749, "belowpoverty": 6, "medincome": 80956, "medhomeval": 233900, "ownservice": 0, "rentservice": 1, "ownartist": 0, "rentartist": 6, "owntech": 70, "renttech": 97 }, 
+{ "zip": 78750, "belowpoverty": 7, "medincome": 75958, "medhomeval": 303100, "ownservice": 4, "rentservice": 1, "ownartist": 5, "rentartist": 15, "owntech": 51, "renttech": 99 }, 
+{ "zip": 78751, "belowpoverty": 26, "medincome": 38624, "medhomeval": 292200, "ownservice": 0, "rentservice": 9, "ownartist": 2, "rentartist": 38, "owntech": 42, "renttech": 97 }, 
+{ "zip": 78752, "belowpoverty": 32, "medincome": 33271, "medhomeval": 153000, "ownservice": 5, "rentservice": 14, "ownartist": 8, "rentartist": 55, "owntech": 86, "renttech": 100 }, 
+{ "zip": 78753, "belowpoverty": 26, "medincome": 39593, "medhomeval": 134900, "ownservice": 8, "rentservice": 11, "ownartist": 24, "rentartist": 40, "owntech": 98, "renttech": 100 }, 
+{ "zip": 78754, "belowpoverty": 11, "medincome": 53274, "medhomeval": 167600, "ownservice": 1, "rentservice": 1, "ownartist": 4, "rentartist": 22, "owntech": 100, "renttech": 100 }, 
+{ "zip": 78756, "belowpoverty": 9, "medincome": 59685, "medhomeval": 342300, "ownservice": 2, "rentservice": 13, "ownartist": 3, "rentartist": 34, "owntech": 37, "renttech": 99 }, 
+{ "zip": 78757, "belowpoverty": 16, "medincome": 55156, "medhomeval": 253300, "ownservice": 2, "rentservice": 6, "ownartist": 8, "rentartist": 32, "owntech": 56, "renttech": 100 }, 
+{ "zip": 78758, "belowpoverty": 24, "medincome": 41792, "medhomeval": 144200, "ownservice": 13, "rentservice": 8, "ownartist": 23, "rentartist": 32, "owntech": 99, "renttech": 99 }, 
+{ "zip": 78759, "belowpoverty": 7, "medincome": 65672, "medhomeval": 307800, "ownservice": 2, "rentservice": 2, "ownartist": 3, "rentartist": 18, "owntech": 45, "renttech": 99 } ];
+
+
+
+function filterData() {
+document.getElementById("answer").innerHTML += "<tr><td>" + housinginfo2[i].zip + "</td><td>" + housinginfo2[i].belowpoverty + "</td><td>" + housinginfo2[i].medincome + "</td><td>" + housinginfo2[i].medhomeval + "</td><td>" + housinginfo2[i].ownservice + "</td><td>" + housinginfo2[i].rentservice + "</td><td>" + housinginfo2[i].ownartist + "</td><td>" + housinginfo2[i].rentartist + "</td><td>" + housinginfo2[i].owntech + "</td><td>" + housinginfo2[i].renttech + "</td></tr>";
+}
+
+for(i=0;i<housinginfo2.length; i++){
+filterData();
+}
+
+
+document.getElementById("form3").onchange = function () {
+selection = document.getElementById("thedropdown3").value;
+document.getElementById("answer").innerHTML = "";
+
+
+if(selection == 1) {
+for(i=0;i<housinginfo2.length; i++){
+if(housinginfo2[i].belowpoverty <10) {
+filterData();
+}
+}
+}
+else if(selection == 2) {
+for(i=0;i<housinginfo2.length; i++){
+if(housinginfo2[i].belowpoverty >=10) {
+filterData();
+}
+}
+}
+else {
+for(i=0;i<housinginfo2.length; i++){
+filterData();
+
+ 
+}
+}
+}
+
+
+document.getElementById("form4").onsubmit = function () {
+selection2 = (document.getElementById("yourzip").value);
+j=0;
+
+if(selection2) {
+document.getElementById("answer").innerHTML = "";
+for(i=0;i<housinginfo2.length; i++){
+if(selection2 == housinginfo2[i].zip) {
+filterData();
+j=j+1;
+}
+}
+
+if(j==0) {
+document.getElementById("answer").innerHTML = "<tr><td><strong>Zipcode not found</strong></td></tr>";}
+}
+
+
+
+else {
+alert("Enter a valid zipcode");
+}
+
+
+
+
+return false;
+
+} 
+
+
+    </script>
+  </body>
+</html>
+
